@@ -2,7 +2,7 @@ async function setup() {
     const net = await mobilenet.load();
     console.log('Model loaded successfully');
     
-    document.getElementById('status').innerText = 'Model loaded successfully.';
+    document.getElementById('caption').innerText = 'Model loaded successfully.';
 
     const imgElement = document.getElementById('image');
 
