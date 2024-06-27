@@ -22,18 +22,7 @@ img {
     border: 1px solid black;
 }
 
-button {
-    margin-top: 10px;
-    font-size: 20px;
-}
-
-#captionResult {
-    margin-top: 20px;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-#console-log {
+p {
     margin-top: 20px;
     width: 90%;
     max-width: 600px;
