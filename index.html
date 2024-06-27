@@ -3,23 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Identifier</title>
+    <title>SnapID</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Image Identifier</h1>
         <input type="file" id="imageUpload" accept="image/*">
         <br>
-        <img id="selectedImage" src="" alt="">
+        <img id="selectedImage" src="" alt="Selected Image">
         <br>
         <button id="generateCaption">ID IMAGE</button>
-        <br>
-        <div id="captionResult" class="caption"></div>
+        <div id="captionResult">No image selected or model not loaded.</div>
     </div>
-    <script src="imagenet.js"></script>
     <script src="index.js"></script>
 </body>
 </html>
