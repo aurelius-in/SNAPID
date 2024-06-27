@@ -1,7 +1,7 @@
 let imageUpload = document.getElementById('imageUpload');
 let selectedImage = document.getElementById('selectedImage');
 let captionResult = document.getElementById('captionResult');
-let imageCaptioning;
+let imageClassifier;
 
 function logMessage(message) {
     console.log(message);
@@ -24,7 +24,7 @@ imageUpload.addEventListener('change', (event) => {
 
 function setup() {
     noCanvas();
-    imageCaptioning = ml5.imageClassifier('https://teachablemachine.withgoogle.com/models/v_slVpIa/model.json', modelReady);
+    imageClassifier = ml5.imageClassifier('MobileNet', modelReady);
 }
 
 function modelReady() {
@@ -32,8 +32,8 @@ function modelReady() {
 }
 
 document.getElementById('generateCaptionButton').addEventListener('click', () => {
-    if (selectedImage.src && imageCaptioning) {
-        imageCaptioning.classify(selectedImage, (error, results) => {
+    if (selectedImage.src && imageClassifier) {
+        imageClassifier.classify(selectedImage, (error, results) => {
             if (error) {
                 logError('Error generating caption: ' + error);
                 return;
