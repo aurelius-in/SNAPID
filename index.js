@@ -14,6 +14,7 @@ imageUpload.addEventListener('change', (event) => {
     let reader = new FileReader();
     reader.onload = function() {
         selectedImage.src = reader.result;
+        selectedImage.style.display = "block"; // Ensure image is displayed
     }
     reader.readAsDataURL(event.target.files[0]);
 });
@@ -23,12 +24,17 @@ generateCaption.addEventListener('click', async () => {
         captionResult.textContent = "Model not loaded.";
         return;
     }
-    if (!selectedImage.src) {
-        captionResult.textContent = "No image selected.";
-        return;
-    }
     const predictions = await model.classify(selectedImage);
-    captionResult.innerHTML = `Caption:<br> ${predictions.map(p => `${p.className}: ${(p.probability * 100).toFixed(2)}%`).join('<br>')}`;
+    displayPredictions(predictions);
 });
+
+function displayPredictions(predictions) {
+    captionResult.innerHTML = 'Caption:<br>'; // Clear previous results
+    predictions.forEach((prediction) => {
+        const p = document.createElement('p');
+        p.innerText = `${prediction.className}: ${(prediction.probability * 100).toFixed(2)}%`;
+        captionResult.appendChild(p);
+    });
+}
 
 loadModel();
