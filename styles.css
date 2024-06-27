@@ -3,48 +3,20 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    font-family: 'Montserrat', sans-serif;
-    background-color: #f0f0f0;
     margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background: url('snapid.jpg') no-repeat center center fixed;
+    background-size: cover;
 }
 
 .container {
     text-align: center;
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.1);
-}
-
-h1 {
-    font-size: 2em;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-input[type="file"] {
-    display: block;
-    margin: 0 auto 20px;
-    padding: 10px;
-    border-radius: 5px;
-    border: 2px solid #ccc;
-    background-color: #fff;
-    cursor: pointer;
-}
-
-button {
-    background-color: #6200ea;
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 50px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #3700b3;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 600px;
 }
 
 #selectedImage {
@@ -53,17 +25,28 @@ button:hover {
     margin-top: 10px;
 }
 
-.caption {
-    margin-top: 20px;
-    text-align: left;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #fafafa;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    color: #333;
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.prediction {
-    margin-left: 20px;
-    font-size: 1em;
+button:hover {
+    background-color: #0056b3;
+}
+
+#captionResult {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
+    text-align: left;
+}
+
+#captionResult p {
+    margin: 5px 0;
 }
