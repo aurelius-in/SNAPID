@@ -1,49 +1,40 @@
 let imageUpload = document.getElementById('imageUpload');
 let selectedImage = document.getElementById('selectedImage');
 let captionResult = document.getElementById('captionResult');
-let imageClassifier; 
-
-function logMessage(message) {
-    console.log(message);
-}
-
-function logError(message) {
-    console.error(message);
-    captionResult.textContent = message;
-}
 
 imageUpload.addEventListener('change', (event) => {
     let file = event.target.files[0];
     let reader = new FileReader();
     reader.onload = function (e) {
         selectedImage.src = e.target.result;
-        logMessage('Image selected.');
+        captionResult.textContent = '';
     };
     reader.readAsDataURL(file);
 });
 
-function setup() {
-    noCanvas();
-    imageClassifier = ml5.imageClassifier('MobileNet', modelReady);
+async function loadModel() {
+    const model = await tf.loadGraphModel('https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v2_140_224/model.json');
+    return model;
 }
 
-function modelReady() {
-    logMessage('Model Loaded!');
-}
-
-document.getElementById('generateCaptionButton').addEventListener('click', () => {
-    if (selectedImage.src && imageClassifier) {
-        imageClassifier.classify(selectedImage, (error, results) => {
-            if (error) {
-                logError('Error generating caption: ' + error);
-                return;
-            }
-            logMessage('Caption generated successfully.');
-            captionResult.textContent = results[0].label;
-        });
+document.getElementById('generateCaptionButton').addEventListener('click', async () => {
+    if (selectedImage.src) {
+        const model = await loadModel();
+        const img = tf.browser.fromPixels(selectedImage).expandDims(0);
+        const predictions = await model.predict(img).data();
+        const top5 = Array.from(predictions)
+            .map((p, i) => ({ probability: p, className: IMAGENET_CLASSES[i] }))
+            .sort((a, b) => b.probability - a.probability)
+            .slice(0, 5);
+        captionResult.textContent = top5[0].className;
     } else {
-        logError('No image selected or model not loaded.');
+        captionResult.textContent = 'No image selected or model not loaded.';
     }
 });
 
-window.onload = setup;
+const IMAGENET_CLASSES = {
+    0: 'tench, Tinca tinca',
+    1: 'goldfish, Carassius auratus',
+    2: 'great white shark, white shark, man-eater, man-eating shark, Carcharodon carcharias',
+    //... Add the rest of the ImageNet classes here.
+};
