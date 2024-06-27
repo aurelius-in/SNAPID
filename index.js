@@ -1,7 +1,7 @@
 const imageUpload = document.getElementById('imageUpload');
 const selectedImage = document.getElementById('selectedImage');
 const captionResult = document.getElementById('captionResult');
-
+ 
 function logMessage(message) {
     const log = document.getElementById('console-log');
     log.textContent += message + '\n';
