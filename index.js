@@ -1,37 +1,30 @@
-async function setup() {
-    const net = await mobilenet.load();
-    console.log('Model loaded successfully');
-    
-    document.getElementById('caption').innerText = 'Model loaded successfully.';
+let selectedImage = document.getElementById('selectedImage');
+let imageUpload = document.getElementById('imageUpload');
+let generateCaption = document.getElementById('generateCaption');
+let captionResult = document.getElementById('captionResult');
+let model;
 
-    const imgElement = document.getElementById('image');
-
-    document.getElementById('file-input').addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-
-        reader.onload = () => {
-            imgElement.src = reader.result;
-            imgElement.onload = async () => {
-                const predictions = await net.classify(imgElement);
-                displayPredictions(predictions);
-            };
-        };
-
-        if (file) {
-            reader.readAsDataURL(file);
-        }
-    });
+async function loadModel() {
+    captionResult.textContent = "Loading model...";
+    model = await mobilenet.load();
+    captionResult.textContent = "Model loaded successfully.";
 }
 
-function displayPredictions(predictions) {
-    const captionElement = document.getElementById('caption');
-    captionElement.innerHTML = ''; // Clear previous results
-    predictions.forEach((prediction) => {
-        const p = document.createElement('p');
-        p.innerText = `Class: ${prediction.className}, Probability: ${(prediction.probability * 100).toFixed(2)}%`;
-        captionElement.appendChild(p);
-    });
-}
+imageUpload.addEventListener('change', (event) => {
+    let reader = new FileReader();
+    reader.onload = function() {
+        selectedImage.src = reader.result;
+    }
+    reader.readAsDataURL(event.target.files[0]);
+});
 
-setup();
+generateCaption.addEventListener('click', async () => {
+    if (!model) {
+        captionResult.textContent = "Model not loaded.";
+        return;
+    }
+    const predictions = await model.classify(selectedImage);
+    captionResult.innerHTML = `Caption:<br> ${predictions.map(p => `${p.className}: ${(p.probability * 100).toFixed(2)}%`).join('<br>')}`;
+});
+
+loadModel();
