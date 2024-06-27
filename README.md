@@ -1,2 +1,2 @@
 ### image-caption:
-https://aurelius-in.github.io/image-captiion/
+https://aurelius-in.github.io/image-caption/
