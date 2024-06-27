@@ -24,7 +24,12 @@ generateCaption.addEventListener('click', async () => {
         return;
     }
     const predictions = await model.classify(selectedImage);
-    captionResult.innerHTML = `Caption:<br>${predictions.map(p => `<div class="prediction">- ${p.className}: ${(p.probability * 100).toFixed(2)}%</div>`).join('')}`;
+    captionResult.innerHTML = 'Caption:';
+    predictions.forEach((prediction) => {
+        const p = document.createElement('p');
+        p.innerText = `${prediction.className}: ${(prediction.probability * 100).toFixed(2)}%`;
+        captionResult.appendChild(p);
+    });
 });
 
 loadModel();
