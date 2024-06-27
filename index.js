@@ -23,6 +23,10 @@ generateCaption.addEventListener('click', async () => {
         captionResult.textContent = "Model not loaded.";
         return;
     }
+    if (!selectedImage.src) {
+        captionResult.textContent = "No image selected.";
+        return;
+    }
     const predictions = await model.classify(selectedImage);
     captionResult.innerHTML = `Caption:<br> ${predictions.map(p => `${p.className}: ${(p.probability * 100).toFixed(2)}%`).join('<br>')}`;
 });
