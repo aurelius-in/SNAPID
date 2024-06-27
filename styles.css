@@ -1,41 +1,14 @@
-body { 
+body {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     height: 100vh;
-    margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
 }
 
-.container {
-    text-align: center;
-}
-
-h1 {
-    margin-bottom: 20px;
-}
-
-.image-container {
-    position: relative;
-    width: 300px;
-    height: auto;
-    margin: 10px auto;
-}
-
-img {
+#selected-image {
     max-width: 100%;
-    border: 1px solid black;
-}
-
-button {
-    margin-top: 10px;
-    font-size: 20px;
-}
-
-#errorMessage {
-    margin-top: 20px;
-    font-size: 18px;
-    font-weight: bold;
-    color: red;
+    max-height: 400px;
+    margin: 20px 0;
 }
