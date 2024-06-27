@@ -17,9 +17,9 @@ imageUpload.addEventListener('change', (event) => {
     let reader = new FileReader();
     reader.onload = function (e) {
         selectedImage.src = e.target.result;
+        logMessage('Image selected.');
     };
     reader.readAsDataURL(file);
-    logMessage('Image selected.');
 });
 
 function setup() {
