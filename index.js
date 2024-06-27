@@ -1,47 +1,40 @@
-let mobilenet;
-let imageElement;
+let imgElement;
+let model;
 
 async function setup() {
-    // Load the MobileNet model
-    mobilenet = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json');
-    console.log('Model loaded');
+    const imageUpload = document.getElementById('imageUpload');
+    const captionButton = document.getElementById('captionButton');
+    imgElement = document.getElementById('image');
+    const captionResult = document.getElementById('captionResult');
 
-    // Setup event listener for file input
-    const fileInput = document.getElementById('file-input');
-    fileInput.addEventListener('change', (event) => loadFile(event.target.files[0]));
+    imageUpload.addEventListener('change', () => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            imgElement.src = e.target.result;
+        };
+        reader.readAsDataURL(imageUpload.files[0]);
+    });
 
-    // Setup event listener for the button
-    const button = document.getElementById('generate-caption');
-    button.addEventListener('click', generateCaption);
+    captionButton.addEventListener('click', async () => {
+        if (imgElement.src) {
+            captionResult.innerText = "Loading model...";
+            if (!model) {
+                model = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json');
+            }
+            captionResult.innerText = "Generating caption...";
+            const tensor = tf.browser.fromPixels(imgElement)
+                .resizeNearestNeighbor([224, 224])
+                .toFloat()
+                .expandDims();
+            const predictions = await model.predict(tensor).data();
+            const topPrediction = Array.from(predictions)
+                .map((p, i) => ({ probability: p, className: IMAGENET_CLASSES[i] }))
+                .sort((a, b) => b.probability - a.probability)[0];
+            captionResult.innerText = `Caption: ${topPrediction.className}`;
+        } else {
+            captionResult.innerText = "No image selected or model not loaded.";
+        }
+    });
 }
 
-async function loadFile(file) {
-    const reader = new FileReader();
-    reader.onload = (event) => {
-        imageElement = document.getElementById('selected-image');
-        imageElement.src = event.target.result;
-    };
-    reader.readAsDataURL(file);
-}
-
-async function generateCaption() {
-    if (!imageElement) {
-        alert('Please select an image first.');
-        return;
-    }
-
-    const image = tf.browser.fromPixels(imageElement);
-    const resizedImage = tf.image.resizeBilinear(image, [224, 224]);
-    const normalizedImage = resizedImage.div(255.0);
-    const batchedImage = normalizedImage.expandDims(0);
-
-    const predictions = await mobilenet.predict(batchedImage).data();
-    const topPrediction = Array.from(predictions)
-        .map((p, i) => ({ probability: p, className: IMAGENET_CLASSES[i] }))
-        .sort((a, b) => b.probability - a.probability)[0];
-
-    const captionElement = document.getElementById('caption');
-    captionElement.innerText = `Prediction: ${topPrediction.className} (Probability: ${topPrediction.probability.toFixed(2)})`;
-}
-
-document.addEventListener('DOMContentLoaded', setup);
+window.onload = setup;
