@@ -9,6 +9,7 @@ function logMessage(message) {
 
 function logError(message) {
     console.error(message);
+    captionResult.textContent = message;
 }
 
 imageUpload.addEventListener('change', (event) => {
@@ -34,8 +35,7 @@ document.getElementById('generateCaptionButton').addEventListener('click', () =>
     if (selectedImage.src && imageCaptioning) {
         imageCaptioning.classify(selectedImage, (error, results) => {
             if (error) {
-                logError(error);
-                captionResult.textContent = 'Error generating caption.';
+                logError('Error generating caption: ' + error);
                 return;
             }
             logMessage('Caption generated successfully.');
@@ -43,7 +43,6 @@ document.getElementById('generateCaptionButton').addEventListener('click', () =>
         });
     } else {
         logError('No image selected or model not loaded.');
-        captionResult.textContent = 'No image selected or model not loaded.';
     }
 });
 
