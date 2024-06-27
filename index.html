@@ -9,15 +9,10 @@
 <body>
     <div class="container">
         <h1>Image Captioning</h1>
-        <input type="file" id="imageUpload" accept="image/*">
-        <img id="image" alt="Selected Image">
-        <button id="captionButton">Generate Caption</button>
-        <p id="captionResult"></p>
+        <input type="file" id="file-input">
+        <button id="generate-caption">Generate Caption</button>
+        <div id="caption"></div>
     </div>
-    <script src="imagenet.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tensorflow/2.6.0/tf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.dom.js"></script>
     <script src="index.js"></script>
 </body>
 </html>
