@@ -1,42 +1,44 @@
-let imageClassifier;
-let imgElement;
+document.getElementById('imageInput').addEventListener('change', loadImage);
+document.getElementById('generateCaption').addEventListener('click', generateCaption);
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Load the pre-trained image classifier model
-    imageClassifier = ml5.imageClassifier('MobileNet', () => {
-        console.log('Model Loaded');
-    });
+const imageContainer = document.getElementById('imageContainer');
+const captionDisplay = document.getElementById('captionDisplay');
 
-    const fileInput = document.getElementById('file-input');
-    const generateCaptionButton = document.getElementById('generate-caption');
-    imgElement = document.getElementById('selected-image');
+let selectedImage = null;
 
-    // Handle image file selection
-    fileInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                imgElement.src = e.target.result;
-                imgElement.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+async function loadImage(event) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
 
-    // Handle caption generation
-    generateCaptionButton.addEventListener('click', () => {
-        if (imgElement.src) {
-            imageClassifier.classify(imgElement, (error, results) => {
-                if (error) {
-                    console.error(error);
-                    document.getElementById('caption').innerText = 'Error generating caption';
-                    return;
-                }
-                document.getElementById('caption').innerText = `Caption: ${results[0].label}`;
-            });
-        } else {
-            document.getElementById('caption').innerText = 'No image selected or model not loaded.';
-        }
-    });
-});
+  reader.onload = function(e) {
+    selectedImage = new Image();
+    selectedImage.src = e.target.result;
+    selectedImage.onload = function() {
+      imageContainer.innerHTML = '';
+      imageContainer.appendChild(selectedImage);
+    };
+  };
+
+  reader.readAsDataURL(file);
+}
+
+async function generateCaption() {
+  if (!selectedImage) {
+    captionDisplay.innerText = 'No image selected or model not loaded.';
+    return;
+  }
+
+  captionDisplay.innerText = 'Generating caption...';
+
+  const img = document.createElement('img');
+  img.src = selectedImage.src;
+  
+  img.onload = async function() {
+    const net = await mobilenet.load();
+    const result = await net.classify(img);
+    const caption = result.map(r => r.className).join(', ');
+    captionDisplay.innerText = `Caption: ${caption}`;
+  };
+}
+
+console.log('Initial setup complete');
