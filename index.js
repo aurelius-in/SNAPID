@@ -1,6 +1,7 @@
 let imageUpload = document.getElementById('imageUpload');
 let selectedImage = document.getElementById('selectedImage');
 let captionResult = document.getElementById('captionResult');
+let imageCaptioning;
 
 function logMessage(message) {
     console.log(message);
@@ -19,8 +20,6 @@ imageUpload.addEventListener('change', (event) => {
     reader.readAsDataURL(file);
     logMessage('Image selected.');
 });
-
-let imageCaptioning;
 
 function setup() {
     noCanvas();
@@ -48,4 +47,4 @@ document.getElementById('generateCaptionButton').addEventListener('click', () =>
     }
 });
 
-setup();
+window.onload = setup;
