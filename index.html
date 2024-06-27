@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Captioning</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Captioning</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
+  <script src="index.js" defer></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Image Captioning</h1>
-        <input type="file" id="upload-button" accept="image/*">
-        <img id="image" src="#" alt="Selected Image" style="display: none;">
-        <button id="generate-caption">Generate Caption</button>
-        <p id="caption">No image selected or model not loaded.</p>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-    <script src="index.js" type="module"></script>
+  <div class="container">
+    <h1>Image Captioning</h1>
+    <input type="file" id="file-input" accept="image/*">
+    <div id="image-container"></div>
+    <button id="generate-caption">Generate Caption</button>
+    <div id="caption-container" class="caption">No image selected or model not loaded.</div>
+  </div>
 </body>
 </html>
