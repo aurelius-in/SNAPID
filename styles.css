@@ -18,7 +18,7 @@ h1 {
 
 .image-container {
     position: relative;
-    width: 480px;
+    width: 300px;
     height: auto;
     margin: 10px auto;
 }
@@ -33,7 +33,7 @@ button {
     font-size: 20px;
 }
 
-#captionResult {
+#errorMessage {
     margin-top: 20px;
     font-size: 18px;
     font-weight: bold;
