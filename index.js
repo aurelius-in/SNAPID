@@ -1,7 +1,7 @@
 let imageUpload = document.getElementById('imageUpload');
 let selectedImage = document.getElementById('selectedImage');
 let captionResult = document.getElementById('captionResult');
-let imageClassifier;
+let imageClassifier; 
 
 function logMessage(message) {
     console.log(message);
