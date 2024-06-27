@@ -3,22 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Identifier</title>
+    <title>Image Identification</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Image Identifier</h1>
-        <input type="file" id="imageUpload" accept="image/*">
-        <br>
-        <button id="generateCaption">Generate Caption</button>
-        <br>
-        <img id="selectedImage" src="" alt="">
-        <p id="captionResult">No image selected or model not loaded.</p>
+    <h1>Image Identification</h1>
+    <input type="file" id="file-input">
+    <div id="image-container">
+        <img id="image" src="" alt="Selected Image">
     </div>
-    <script src="imagenet.js"></script>
+    <button onclick="generateCaption()">Generate Caption</button>
+    <div id="caption" class="caption"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
     <script src="index.js"></script>
 </body>
 </html>
